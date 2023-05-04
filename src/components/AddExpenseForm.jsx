@@ -2,14 +2,44 @@ import Button from "react-bootstrap/Button";
 import CategoryDropdown from "./CategoryDropdown";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import axios from "axios";
 import { useState } from "react";
 
 const AddExpenseForm = ({ show, setShowAddExpenseForm }) => {
-  const [amount, setAmount] = useState(null);
-  const [date, setDate] = useState(null);
+  const [amount, setAmount] = useState(0);
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [labels, setLabels] = useState([]);
+
+  const handleSubmit = async () => {
+    const response = await axios.post(
+      "http://localhost:3000/api/expenses",
+      {
+        amount,
+        title,
+        description,
+        date,
+        categories: labels,
+        status: "paid",
+      },
+      {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiS2hhdmluIFNoYW5rYXIiLCJ1c2VybmFtZSI6ImtoYXZpbnNoYW5rYXIiLCJpZCI6IjY0NTNkOGZiZWJkMjEzNjRmNGI0ZDNjNiIsImlhdCI6MTY4MzIxNjY0NH0.8oz5FrGbA0_wseGqIMh0JWfIxbx89TUqMScz5u30YfM",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      setAmount(0);
+      setDate(new Date().toISOString().slice(0, 10));
+      setTitle("");
+      setDescription("");
+      setLabels([]);
+      setShowAddExpenseForm(false);
+    }
+  };
 
   return (
     <Modal
@@ -64,7 +94,9 @@ const AddExpenseForm = ({ show, setShowAddExpenseForm }) => {
           >
             Close
           </Button>
-          <Button variant="primary">Submit</Button>
+          <Button onClick={handleSubmit} variant="primary">
+            Submit
+          </Button>
         </Modal.Footer>
       </Modal.Dialog>
     </Modal>

@@ -1,5 +1,6 @@
 import Badge from "react-bootstrap/Badge";
 import Dropdown from "react-bootstrap/Dropdown";
+import { TbX } from "react-icons/tb";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -31,6 +32,15 @@ const CategoryDropdown = ({ selectedLabels, setSelectedLabels }) => {
           <h5 key={selectedLabel}>
             <Badge bg="secondary">
               {labels.find((label) => label._id === selectedLabel)?.title}
+              <TbX
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  setSelectedLabels((prev) =>
+                    prev.filter((p) => p !== selectedLabel)
+                  )
+                }
+                className="ms-2"
+              />
             </Badge>
           </h5>
         ))}
