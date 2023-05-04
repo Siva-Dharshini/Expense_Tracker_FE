@@ -59,7 +59,7 @@ const data = {
     "2023-04-24",
     "2023-04-28",
     "2023-04-30",
-  ].map((date) => new Date(date)),
+  ],
   datasets: [
     {
       label: "Expenses",
