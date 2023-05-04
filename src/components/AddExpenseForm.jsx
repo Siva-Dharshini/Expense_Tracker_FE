@@ -51,7 +51,10 @@ const AddExpenseForm = ({ show, setShowAddExpenseForm }) => {
             placeholder="Leave a comment here"
             className="my-2"
           />
-          <CategoryDropdown labels={labels} setLabels={setLabels} />
+          <CategoryDropdown
+            selectedLabels={labels}
+            setSelectedLabels={setLabels}
+          />
         </Modal.Body>
 
         <Modal.Footer>
