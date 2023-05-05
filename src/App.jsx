@@ -15,16 +15,13 @@ function App() {
   const [showAddExpenseForm, setShowAddExpenseForm] = useState(false);
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
   const [expenses, setExpenses] = useState([]);
-  const { currentUser } = useAuth();
-
-  console.log(currentUser);
+  const { currentUser, signout } = useAuth();
 
   useEffect(() => {
     const getAllExpenses = async () => {
       const response = await axios.get("http://localhost:3000/api/expenses", {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiS2hhdmluIFNoYW5rYXIiLCJ1c2VybmFtZSI6ImtoYXZpbnNoYW5rYXIiLCJpZCI6IjY0NTNkOGZiZWJkMjEzNjRmNGI0ZDNjNiIsImlhdCI6MTY4MzIxNjY0NH0.8oz5FrGbA0_wseGqIMh0JWfIxbx89TUqMScz5u30YfM",
+          Authorization: `Bearer ${currentUser.token}`,
         },
       });
       if (response.status === 200) {
@@ -33,7 +30,7 @@ function App() {
     };
 
     getAllExpenses();
-  }, [showAddExpenseForm]);
+  }, [showAddExpenseForm, currentUser]);
 
   const summedExpenses = expenses.reduce((acc, expense) => {
     const date = expense.date.slice(0, 10);
@@ -49,7 +46,10 @@ function App() {
   return (
     <>
       <div className="container position-relative">
-        <h1 className="text-center">Expense Tracker</h1>
+        <div>
+          <h1 className="text-center">Expense Tracker</h1>
+          <button onClick={signout}>Signout</button>
+        </div>
 
         <Chart
           data={{
