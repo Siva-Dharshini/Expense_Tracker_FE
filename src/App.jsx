@@ -7,6 +7,7 @@ import Chart from "./components/Chart";
 import ExpenseCard from "./components/ExpenseCard";
 import axios from "axios";
 import { subDays } from "date-fns";
+import { useAuth } from "./contexts/AuthContext";
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -14,6 +15,9 @@ function App() {
   const [showAddExpenseForm, setShowAddExpenseForm] = useState(false);
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
   const [expenses, setExpenses] = useState([]);
+  const { currentUser } = useAuth();
+
+  console.log(currentUser);
 
   useEffect(() => {
     const getAllExpenses = async () => {
