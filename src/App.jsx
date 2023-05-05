@@ -32,7 +32,7 @@ function App() {
 
   return (
     <>
-      <div className="container">
+      <div className="container position-relative">
         <h1 className="text-center">Expense Tracker</h1>
 
         <Chart />

@@ -15,7 +15,7 @@ const AddButton = ({ setShowAddExpenseForm, setShowAddCategoryForm }) => {
             flexDirection: "column",
             gap: "5px",
           }}
-          className="position-absolute bottom-0 end-0 d-flex"
+          className="position-fixed bottom-0 end-0 d-flex"
         >
           <button
             onClick={() => setShowAddCategoryForm(true)}
@@ -33,7 +33,7 @@ const AddButton = ({ setShowAddExpenseForm, setShowAddCategoryForm }) => {
       )}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="position-absolute bottom-0 end-0 mb-5 me-5 btn btn-primary rounded-circle p-3"
+        className="position-fixed bottom-0 end-0 mb-5 me-5 btn btn-primary rounded-circle p-3"
       >
         {isOpen ? <TbMinus size={30} /> : <TbPlus size={30} />}
       </button>
