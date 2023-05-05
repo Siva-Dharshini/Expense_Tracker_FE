@@ -6,6 +6,7 @@ import AddExpenseForm from "./components/AddExpenseForm";
 import Chart from "./components/Chart";
 import ExpenseCard from "./components/ExpenseCard";
 import axios from "axios";
+import { subDays } from "date-fns";
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -30,12 +31,49 @@ function App() {
     getAllExpenses();
   }, [showAddExpenseForm]);
 
+  const summedExpenses = expenses.reduce((acc, expense) => {
+    const date = expense.date.slice(0, 10);
+    if (date in acc) {
+      acc[date] += expense.amount;
+    } else {
+      acc[date] = expense.amount;
+    }
+
+    return acc;
+  }, {});
+
   return (
     <>
       <div className="container position-relative">
         <h1 className="text-center">Expense Tracker</h1>
 
-        <Chart />
+        <Chart
+          data={{
+            labels: Array(15)
+              .fill(null)
+              .map((_, i) => subDays(new Date(), i)),
+            datasets: [
+              {
+                label: "Expenses",
+                data: Array(15)
+                  .fill(null)
+                  .map((_, i) => {
+                    const date = subDays(new Date(), i)
+                      .toISOString()
+                      .slice(0, 10);
+                    if (date in summedExpenses) {
+                      return summedExpenses[date];
+                    }
+
+                    return 0;
+                  }),
+                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                lineTension: 0.3,
+              },
+            ],
+          }}
+        />
 
         <div
           style={{ justifyContent: "center" }}
